@@ -4,6 +4,8 @@ import { useEffect, useState } from "react"
 import api from "../../utils/api"
 import {useSearchParams} from "react-router-dom"
 import Card from "../../components/Card"
+import Error from "../../components/Error"
+import Loader from "../../components/Loader"
 
 const Feed = () => {
   const [videos, setVideos] = useState(null);
@@ -21,7 +23,8 @@ const Feed = () => {
    const url = !selected ? "/home" : selected === "trending" ? "/trending" : `/search?query=${selected}`;
 
     // api isteği at 
-   api.get(url).then((res) => consol.log(res))
+   api.get(url, {params: {geo: "TR", lang: "tr"}})
+   .then((res) => setVideos(res.data.data))
    .catch((err) => setError(err.message))
   }, [selected]);
 
@@ -29,8 +32,10 @@ const Feed = () => {
     <div className="flex" >
       <Sidebar />
       <div className="videos" >
-       {error ? ( <h1>hata bilgisi</h1> ) : !videos ? ( <h1>yükleniyor...</h1> )
-       : ( videos.map((i, key) => <Card key= {key} item={i} />))}
+       {error ? ( <Error msg={error} /> ) : !videos ? ( <Loader/> )
+       : ( videos.map((i, key) => <Card key= {key} item={i} />
+       ))}
+       
       </div>
     </div>
   )

@@ -3,10 +3,10 @@
 import axios from "axios";
 
 const api = axios.create({
-    baseURL: 'https://yt-api.p.rapidapi.com',
+    baseURL: import.meta.env.VITE_BASE_URL,
     headers: {
-        'x-rapidapi-key': '4683c4451fmsh0a5e6d435c438f5p1c3ac6jsn8d937d8ea422',
-        'x-rapidapi-host': 'yt-api.p.rapidapi.com'
+        'x-rapidapi-key': import.meta.env.VITE_API_KEY,
+        'x-rapidapi-host': import.meta.env.VITE_API_HOST,
       }
   });
 
